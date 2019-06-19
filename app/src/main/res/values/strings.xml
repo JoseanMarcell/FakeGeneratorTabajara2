@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Fake Generator Tabajara</string>
     <string name="action_settings">Settings</string>
+    <string-array name="fakes">
+        <item>Nomes</item>
+        <item>Pokemons</item>
+        <item>Endereços</item>
+        <item>Artistas</item>
+        <item>Cervejas</item>
+    </string-array>
 </resources>
