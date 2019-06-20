@@ -7,12 +7,27 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Spinner;
+
+import senac.fakegeneratortabajara.adapters.AdapterFalso;
+import senac.fakegeneratortabajara.models.Gerador;
 
 public class MainActivity extends AppCompatActivity {
+
+    Spinner spTipo;
+    EditText txtQuantidade;
+    RecyclerView listaFakes;
+    public static Gerador gerador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +36,34 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        spTipo = findViewById(R.id.spFakes);
+        txtQuantidade = findViewById(R.id.txtQuantidade);
+        listaFakes = findViewById(R.id.ListaFakes);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                try {
+                    String tipo = spTipo.getSelectedItem().toString();
+                    int quantidade = Integer.parseInt(txtQuantidade.getText().toString());
+
+                    gerador = new Gerador(tipo, quantidade);
+
+                    listaFakes.setAdapter(new AdapterFalso(gerador.gerarFakes(), getBaseContext()));
+
+                    RecyclerView.LayoutManager layout = new LinearLayoutManager(getBaseContext(),
+                            RecyclerView.VERTICAL, false);
+
+                    listaFakes.addItemDecoration(
+                            new DividerItemDecoration(getBaseContext(), DividerItemDecoration.VERTICAL));
+
+                    listaFakes.setLayoutManager(layout);
+                } catch (Exception ex) {
+                    Log.e("OnClick", ex.getMessage());
+                    Snackbar.make(view, ex.getMessage(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
     }

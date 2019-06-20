@@ -10,27 +10,32 @@ public class Gerador {
 
     private String tipo;
     private int quantidade;
-    private List<String> fakes;
+    private List<Falso> fakes;
 
     public Gerador(String tipo, int quantidade) {
         this.tipo = tipo;
         this.quantidade = quantidade;
     }
 
-    public List<String> gerarFakes() {
+    public List<Falso> gerarFakes() {
         Faker faker = new Faker(new Locale("pt-BR"));
         fakes = new ArrayList<>();
         for (int i = 0; i < quantidade; i++) {
             switch (tipo){
-                case "Nomes": fakes.add(faker.name().fullName());
+                case "Nomes":
+                    fakes.add(new Falso(faker.name().fullName(), "Nome"));
                     break;
-                case "Pokemons" : fakes.add(faker.pokemon().name());
+                case "Pokemons" :
+                    fakes.add(new Falso(faker.pokemon().name(), "Pokemon"));
                     break;
-                case "Endereços" : fakes.add(faker.address().fullAddress());
+                case "Endereços" :
+                    fakes.add(new Falso(faker.address().fullAddress(), "Endereço"));
                     break;
-                case "Artistas" : fakes.add(faker.artist().name());
+                case "Artistas" :
+                    fakes.add(new Falso(faker.artist().name(), "Artista"));
                     break;
-                case "Cervejas" : fakes.add(faker.beer().name());
+                case "Cervejas" :
+                    fakes.add(new Falso(faker.beer().name(), "Cerveja"));
                     break;
             }
         }
@@ -46,7 +51,7 @@ public class Gerador {
         return quantidade;
     }
 
-    public List<String> getFakes() {
+    public List<Falso> getFakes() {
         return fakes;
     }
 }
