@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     EditText txtQuantidade;
     RecyclerView listaFakes;
     ProgressBar loading;
+    LoaderManager loaderManager;
     public static Gerador gerador;
 
     public static final int OPERATION_SEARCH_LOADER = 15;
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         listaFakes.setLayoutManager(layout);
 
+        loaderManager = getSupportLoaderManager();
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,8 +74,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     int quantidade = Integer.parseInt(txtQuantidade.getText().toString());
 
                     gerador = new Gerador(tipo, quantidade);
-
-                    LoaderManager loaderManager = getSupportLoaderManager();
 
                     Loader<List<Falso>> loader = loaderManager.getLoader(OPERATION_SEARCH_LOADER);
 
