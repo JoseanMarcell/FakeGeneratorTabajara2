@@ -1,6 +1,7 @@
 package senac.fakegeneratortabajara.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 import senac.fakegeneratortabajara.R;
@@ -42,6 +44,7 @@ public class AdapterFalso extends RecyclerView.Adapter {
 
         viewHolder.tipo.setText(falso.getTipo());
         viewHolder.nome.setText(falso.getNome());
+        viewHolder.foto.setImageResource(falso.getFoto());
     }
 
     @Override
