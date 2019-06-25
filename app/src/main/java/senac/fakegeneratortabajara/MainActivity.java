@@ -31,7 +31,7 @@ import senac.fakegeneratortabajara.adapters.AdapterFalso;
 import senac.fakegeneratortabajara.models.Falso;
 import senac.fakegeneratortabajara.models.Gerador;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Falso>> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Falso>>  {
 
     Spinner spTipo;
     EditText txtQuantidade;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     ProgressBar loading;
     public static Gerador gerador;
 
-    public static final int OPERATION_SEARCH_LOADER = 22;
+    public static final int OPERATION_SEARCH_LOADER = 15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         txtQuantidade = findViewById(R.id.txtQuantidade);
         listaFakes = findViewById(R.id.ListaFakes);
         loading = findViewById(R.id.progressBar);
+        loading.setVisibility(View.GONE);
 
         RecyclerView.LayoutManager layout = new LinearLayoutManager(getBaseContext(),
                 RecyclerView.VERTICAL, false);
@@ -75,11 +76,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                     Loader<List<Falso>> loader = loaderManager.getLoader(OPERATION_SEARCH_LOADER);
 
-
                     if (loader == null) {
-                        loaderManager.initLoader(OPERATION_SEARCH_LOADER, null, null);
+                        loaderManager.initLoader(OPERATION_SEARCH_LOADER, null, MainActivity.this);
                     } else {
-                        loaderManager.restartLoader(OPERATION_SEARCH_LOADER, null, null);
+                        loaderManager.restartLoader(OPERATION_SEARCH_LOADER, null, MainActivity.this);
                     }
 
                 } catch (Exception ex) {
@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             protected void onStartLoading() {
+                listaFakes.setVisibility(View.INVISIBLE);
                 loading.setVisibility(View.VISIBLE);
                 forceLoad();
             }
@@ -134,6 +135,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(@NonNull Loader<List<Falso>> loader, List<Falso> data) {
         loading.setVisibility(View.GONE);
+
+        listaFakes.setVisibility(View.VISIBLE);
 
         listaFakes.setAdapter(new AdapterFalso(data, getBaseContext()));
     }
