@@ -31,7 +31,7 @@ import senac.fakegeneratortabajara.adapters.AdapterFalso;
 import senac.fakegeneratortabajara.models.Falso;
 import senac.fakegeneratortabajara.models.Gerador;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Falso>>  {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Falso>> {
 
     Spinner spTipo;
     EditText txtQuantidade;
@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     LoaderManager loaderManager;
     public static Gerador gerador;
 
+    public static final String TIPO_TEXT_KEY = "Nomes";
+    public static final String QTD_TEXT_KEY = "ser";
     public static final int OPERATION_SEARCH_LOADER = 15;
 
     @Override
@@ -54,6 +56,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         listaFakes = findViewById(R.id.ListaFakes);
         loading = findViewById(R.id.progressBar);
         loading.setVisibility(View.GONE);
+
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(TIPO_TEXT_KEY)) {
+                spTipo.setSelection(savedInstanceState.getInt(TIPO_TEXT_KEY));
+            }
+            if (savedInstanceState.containsKey(QTD_TEXT_KEY)) {
+                txtQuantidade.setText(savedInstanceState.getString(QTD_TEXT_KEY));
+            }
+        }
 
         RecyclerView.LayoutManager layout = new LinearLayoutManager(getBaseContext(),
                 RecyclerView.VERTICAL, false);
@@ -114,6 +125,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(TIPO_TEXT_KEY, spTipo.getSelectedItemPosition());
+        outState.putString(QTD_TEXT_KEY, txtQuantidade.getText().toString());
+    }
+
     @NonNull
     @Override
     public Loader<List<Falso>> onCreateLoader(int id, @Nullable Bundle args) {
@@ -121,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Nullable
             @Override
             public List<Falso> loadInBackground() {
-               return gerador.gerarFakes();
+                return gerador.gerarFakes();
             }
 
             @Override
