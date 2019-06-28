@@ -40,8 +40,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     LoaderManager loaderManager;
     public static Gerador gerador;
 
-    public static final String TIPO_TEXT_KEY = "Nomes";
-    public static final String QTD_TEXT_KEY = "ser";
+    public static final String TIPO_TEXT_KEY = "tipos"; // chave para guardar os dados da telinha
+    public static final String QTD_TEXT_KEY = "quantidade";// chave para guardar os dados da telinha
+
     public static final int OPERATION_SEARCH_LOADER = 15;
 
     @Override
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         loading = findViewById(R.id.progressBar);
         loading.setVisibility(View.GONE);
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null) { // complemento da telinha que gira
             if (savedInstanceState.containsKey(TIPO_TEXT_KEY)) {
                 spTipo.setSelection(savedInstanceState.getInt(TIPO_TEXT_KEY));
             }
@@ -126,12 +127,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState) { // usado para girar a telinha do celular
         super.onSaveInstanceState(outState);
 
         outState.putInt(TIPO_TEXT_KEY, spTipo.getSelectedItemPosition());
         outState.putString(QTD_TEXT_KEY, txtQuantidade.getText().toString());
+
     }
+
 
     @NonNull
     @Override
